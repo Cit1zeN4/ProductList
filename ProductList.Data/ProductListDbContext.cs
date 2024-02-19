@@ -9,7 +9,9 @@ public class ProductListDbContext : DbContext, IProductListDbContext
 {
     public DbSet<File> Files { get; set; }
     public DbSet<UserFile> UserFiles { get; set; }
+    public DbSet<Image> Images { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCart> ProductCarts { get; set; }
-    public DbSet<Purchase> Purchase { get; set; }
+    public DbSet<Purchase> Purchases { get; set; }
+    public DbSet<Shop> Shops { get; set; }
 }
