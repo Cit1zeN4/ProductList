@@ -16,7 +16,19 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ProductList.Domain\ProductList.Domain.csproj" />
+
+
+
+
+
+
+
+
     </ItemGroup>
+
+
+
+
 
 
 
