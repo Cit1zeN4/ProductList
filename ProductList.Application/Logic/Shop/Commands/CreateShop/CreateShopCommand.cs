@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ProductList.Application.Logic.Shop.Commands.CraeteShop;
+namespace ProductList.Application.Logic.Shop.Commands.CreateShop;
 
 public class CreateShopCommand : IRequest<Guid>
 {

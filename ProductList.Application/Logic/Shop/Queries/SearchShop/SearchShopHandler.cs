@@ -6,20 +6,11 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Queries.SearchShop;
 
-public class SearchShopHandler : IRequestHandler<SearchShopQuery, DataList<Domain.Shop>>
+public class SearchShopHandler(IProductListDbContext context) : IRequestHandler<SearchShopQuery, DataList<Domain.Shop>>
 {
-    private readonly IProductListDbContext _context;
-    private readonly IMapper _mapper;
-    
-    public SearchShopHandler(IProductListDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-    
     public async Task<DataList<Domain.Shop>> Handle(SearchShopQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.Shops.Where(x => EF.Functions.Like(x.Name, $"%{request.Search}%"));
+        var query = context.Shops.Where(x => EF.Functions.Like(x.Name, $"%{request.Search}%"));
         var totalCount = await query.CountAsync(cancellationToken);
 
         if (request.Skip.HasValue)
