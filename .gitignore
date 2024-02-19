@@ -1,3 +1,8 @@
 ﻿.idea
 ProductList.Domain/bin
 ProductList.Domain/obj
+ProductList.Data/bin
+ProductList.Data/obj
+ProductList.Data/appsettings.Development.json
+ProductList.Application/bin
+ProductList.Application/obj
