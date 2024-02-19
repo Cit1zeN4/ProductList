@@ -8,5 +8,5 @@ public class Product
     public string Description { get; set; }
     public virtual List<Image> Images { get; set; }
     public virtual List<Shop> Shops { get; set; }
-    public virtual List<Сart> Carts { get; set; } 
+    public virtual List<Purchase> Carts { get; set; } 
 }
