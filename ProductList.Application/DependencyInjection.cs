@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using ProductList.Application.Common.Behaviors;
 using ProductList.Application.Common.Mappings;
 using ProductList.Application.Interfaces;
 
@@ -19,6 +21,9 @@ public static class DependencyInjection
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
+        
+        services.AddTransient(typeof(IPipelineBehavior<,>),
+            typeof(ValidationBehavior<,>));
 
         return services;
     }
