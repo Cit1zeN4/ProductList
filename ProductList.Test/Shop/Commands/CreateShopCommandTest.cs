@@ -21,17 +21,19 @@ public class CreateShopCommandTest : TestCommandBase
             Name = name,
             Address = address
         };
-        
+
         // Act
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
         var shopId = await handler.Handle(command, CancellationToken.None);
+        var result =
+            await Context.Shops.SingleOrDefaultAsync(x => x.Id == shopId && x.Name == name && x.Address == address);
 
         // Assert
-        Assert.True(validationResult.IsValid);
-        Assert.NotNull(
-            await Context.Shops.SingleOrDefaultAsync(x => x.Id == shopId && x.Name == name && x.Address == address));
+        validationResult.IsValid.ShouldBeTrue();
+        shopId.ShouldNotBe(Guid.Empty);
+        result.ShouldNotBeNull();
     }
-    
+
     [Theory]
     [InlineData(null, null)]
     [InlineData("", null)]
@@ -45,11 +47,11 @@ public class CreateShopCommandTest : TestCommandBase
             Name = name,
             Address = address
         };
-        
+
         // Act
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
 
         // Assert
-        Assert.False(validationResult.IsValid);
+        validationResult.IsValid.ShouldBeFalse();
     }
 }

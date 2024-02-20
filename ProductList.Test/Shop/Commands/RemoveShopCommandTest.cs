@@ -23,11 +23,11 @@ public class RemoveShopCommandTest : TestCommandBase
         // Act
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
         await handler.Handle(command, CancellationToken.None);
+        var result = await Context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id);
 
         // Assert
-        Assert.True(validationResult.IsValid);
-        Assert.Null(
-            await Context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id));
+        validationResult.IsValid.ShouldBeTrue();
+        result.ShouldBeNull();
     }
     
     [Fact]
@@ -44,9 +44,9 @@ public class RemoveShopCommandTest : TestCommandBase
         };
         
         // Act
-        // Assert
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
-        Assert.True(validationResult.IsValid);
+        // Assert
+        validationResult.IsValid.ShouldBeTrue();
         await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
     }
     
@@ -64,9 +64,9 @@ public class RemoveShopCommandTest : TestCommandBase
         };
         
         // Act
-        // Assert
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
-        Assert.True(validationResult.IsValid);
+        // Assert
+        validationResult.IsValid.ShouldBeTrue();
         await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
     }
     
@@ -84,9 +84,9 @@ public class RemoveShopCommandTest : TestCommandBase
         };
         
         // Act
-        // Assert
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
-        Assert.True(validationResult.IsValid);
+        // Assert
+        validationResult.IsValid.ShouldBeTrue();
         await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
     }
     
@@ -105,6 +105,6 @@ public class RemoveShopCommandTest : TestCommandBase
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
         
         // Assert
-        Assert.False(validationResult.IsValid);
+        validationResult.IsValid.ShouldBeFalse();
     }
 }
