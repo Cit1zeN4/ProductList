@@ -7,6 +7,9 @@ namespace ProductList.Data;
 
 public class ProductListDbContext : DbContext, IProductListDbContext
 {
+    public ProductListDbContext(DbContextOptions<ProductListDbContext> options)
+        : base(options) { }
+    
     public DbSet<File> Files { get; set; }
     public DbSet<UserFile> UserFiles { get; set; }
     public DbSet<Image> Images { get; set; }
