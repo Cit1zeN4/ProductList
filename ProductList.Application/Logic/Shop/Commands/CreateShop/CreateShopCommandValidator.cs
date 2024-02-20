@@ -7,7 +7,7 @@ public class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
 {
     public CreateShopCommandValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(256);
+        RuleFor(x => x.Name).NotNull().NotEmpty().MaximumLength(256);
         RuleFor(x => x.Address).MaximumLength(512);
     }
 }
