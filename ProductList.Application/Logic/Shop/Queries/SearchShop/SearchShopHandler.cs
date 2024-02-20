@@ -10,7 +10,13 @@ public class SearchShopHandler(IProductListDbContext context) : IRequestHandler<
 {
     public async Task<DataList<Domain.Shop>> Handle(SearchShopQuery request, CancellationToken cancellationToken)
     {
-        var query = context.Shops.Where(x => EF.Functions.Like(x.Name, $"%{request.Search}%"));
+        var query = context.Shops.AsQueryable();
+        
+        if (!string.IsNullOrEmpty(request.Search) || !string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(x =>
+                EF.Functions.Like(x.Name, request.Search) ||
+                EF.Functions.Like(x.Address, request.Search));
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         if (request.Skip.HasValue)
