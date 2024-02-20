@@ -11,6 +11,7 @@ public class CreateShopCommandTest : TestCommandBase
     {
         // Arrange
         var handler = new CreateShopCommandHandler(Context);
+        var validator = new CreateShopCommandValidator();
 
         var name = "Some name";
         var address = "Some address";
@@ -20,12 +21,35 @@ public class CreateShopCommandTest : TestCommandBase
             Name = name,
             Address = address
         };
-
+        
         // Act
+        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
         var shopId = await handler.Handle(command, CancellationToken.None);
 
         // Assert
+        Assert.True(validationResult.IsValid);
         Assert.NotNull(
             await Context.Shops.SingleOrDefaultAsync(x => x.Id == shopId && x.Name == name && x.Address == address));
+    }
+    
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("", null)]
+    public async Task CreateShopCommand_ValidationError(string name, string address)
+    {
+        // Arrange
+        var validator = new CreateShopCommandValidator();
+
+        var command = new CreateShopCommand()
+        {
+            Name = name,
+            Address = address
+        };
+        
+        // Act
+        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+
+        // Assert
+        Assert.False(validationResult.IsValid);
     }
 }
