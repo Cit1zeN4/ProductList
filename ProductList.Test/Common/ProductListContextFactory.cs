@@ -3,7 +3,7 @@ using ProductList.Data;
 
 namespace ProductList.Test.Common;
 
-public class ProductListContextFactory
+public static class ProductListContextFactory
 {
     public static Guid ShopToDeleteId = Guid.NewGuid();
     public static Guid ShopToUpdateId = Guid.NewGuid();
@@ -31,6 +31,8 @@ public class ProductListContextFactory
                 Address = "Test shop2 address"
             }
         );
+
+        context.SaveChanges();
 
         return context;
     }
