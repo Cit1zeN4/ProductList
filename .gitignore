@@ -6,3 +6,6 @@ ProductList.Data/obj
 ProductList.Data/appsettings.Development.json
 ProductList.Application/bin
 ProductList.Application/obj
+ProductList.Test/bin
+ProductList.Test/obj
+ProductList.sln.DotSettings.user
