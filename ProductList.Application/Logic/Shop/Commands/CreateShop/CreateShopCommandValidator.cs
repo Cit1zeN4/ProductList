@@ -1,0 +1,13 @@
+﻿using System.Data;
+using FluentValidation;
+
+namespace ProductList.Application.Logic.Shop.Commands.CreateShop;
+
+public class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
+{
+    public CreateShopCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(256);
+        RuleFor(x => x.Address).MaximumLength(512);
+    }
+}
