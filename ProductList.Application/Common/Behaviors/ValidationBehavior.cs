@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 
 namespace ProductList.Application.Common.Behaviors;
@@ -11,18 +12,23 @@ public class ValidationBehavior<TRequest, TResponse>
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators) =>
         _validators = validators;
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var context = new ValidationContext<TRequest>(request);
-        var failures = _validators
-            .Select(v => v.Validate(context))
-            .SelectMany(result => result.Errors)
-            .Where(failure => failure != null)
-            .ToList();
-        if (failures.Count != 0)
+        if (!_validators.Any())
         {
-            throw new ValidationException(failures);
+            return await next();
         }
-        return next();
+        var context = new ValidationContext<TRequest>(request);
+        var errors = _validators
+            .Select(x => x.Validate(context))
+            .SelectMany(x => x.Errors)
+            .Where(x => x != null);
+
+        var validationFailures = errors as ValidationFailure[] ?? errors.ToArray();
+        if (validationFailures.Any())
+        {
+            throw new ValidationException(validationFailures);
+        }
+        return await next();
     }
 }

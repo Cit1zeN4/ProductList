@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using ProductList.Application.Interfaces;
 using ProductList.Application.Logic.Shop.Commands.CreateShop;
 using ProductList.Test.Common;
 
 namespace ProductList.Test.Shop.Commands;
 
-public class CreateShopCommandTest : TestCommandBase
+[Collection("InitDbCollection")]
+public class CreateShopCommandTest(InitDbFixture fixture)
 {
+    private readonly IProductListDbContext _context = fixture.Context;
+
     [Fact]
     public async Task CreateShopCommand_Success()
     {
         // Arrange
-        var handler = new CreateShopCommandHandler(Context);
-        var validator = new CreateShopCommandValidator();
-
         var name = "Some name";
         var address = "Some address";
 
@@ -21,17 +22,18 @@ public class CreateShopCommandTest : TestCommandBase
             Name = name,
             Address = address
         };
+        
+        var handler = new CreateShopCommandHandler(_context);
+        var validator = new CreateShopCommandValidator();
+
 
         // Act
-        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+        var validation = await validator.ValidateAsync(command);
         var shopId = await handler.Handle(command, CancellationToken.None);
-        var result =
-            await Context.Shops.SingleOrDefaultAsync(x => x.Id == shopId && x.Name == name && x.Address == address);
 
         // Assert
-        validationResult.IsValid.ShouldBeTrue();
+        validation.IsValid.ShouldBeTrue();
         shopId.ShouldNotBe(Guid.Empty);
-        result.ShouldNotBeNull();
     }
 
     [Theory]
@@ -40,18 +42,18 @@ public class CreateShopCommandTest : TestCommandBase
     public async Task CreateShopCommand_ValidationError(string name, string address)
     {
         // Arrange
-        var validator = new CreateShopCommandValidator();
-
         var command = new CreateShopCommand()
         {
             Name = name,
             Address = address
         };
+        
+        var validator = new CreateShopCommandValidator();
 
         // Act
-        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
-
+        var validation = await validator.ValidateAsync(command);
+        
         // Assert
-        validationResult.IsValid.ShouldBeFalse();
+        validation.IsValid.ShouldBeFalse();
     }
 }

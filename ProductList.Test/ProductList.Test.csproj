@@ -29,7 +29,13 @@
     <ItemGroup>
       <ProjectReference Include="..\ProductList.Application\ProductList.Application.csproj" />
       <ProjectReference Include="..\ProductList.Data\ProductList.Data.csproj" />
+
+
     </ItemGroup>
+
+
+
+
 
 
 

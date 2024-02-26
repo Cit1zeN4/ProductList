@@ -1,36 +1,43 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductList.Application.Common.Exceptions;
+using ProductList.Application.Interfaces;
+using ShopDb = ProductList.Test.Common.TestDbInitializer.ShopInitializer;
+
 using ProductList.Application.Logic.Shop.Commands.UpdateShop;
 using ProductList.Test.Common;
 
 namespace ProductList.Test.Shop.Commands;
 
-public class UpdateShopCommandTest : TestCommandBase
+[Collection("InitDbCollection")]
+public class UpdateShopCommandTest(InitDbFixture fixture)
 {
+    private readonly IProductListDbContext _context = fixture.Context;
+
     [Fact]
     public async Task UpdateShopCommand_SuccessOnRoleAdmin()
     {
         // Arrange
-        var userService = UserInfoServiceMock.GetAdminMock();
-        var handler = new UpdateShopCommandHandler(Context, userService);
-        var validator = new UpdateShopCommandValidator();
-
         var name = "new name";
 
         var command = new UpdateShopCommand()
         {
-            Id = ProductListContextFactory.ShopToUpdateId,
+            Id = ShopDb.ShopToUpdateId,
             Name = name
         };
+        
+        var userInfoService = UserInfoServiceMock.GetAdminMock().Object;
+        var handler = new UpdateShopCommandHandler(_context, userInfoService);
+        var validator = new UpdateShopCommandValidator();
 
         // Act
-        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+        var validation = await validator.ValidateAsync(command);
         await handler.Handle(command, CancellationToken.None);
+        
         var result =
-            await Context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id && x.Name == name && x.Address == null);
+            await _context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id && x.Name == name && x.Address == null);
 
         // Assert
-        validationResult.IsValid.ShouldBeTrue();
+        validation.IsValid.ShouldBeTrue();
         result.ShouldNotBeNull();
     }
 
@@ -38,25 +45,26 @@ public class UpdateShopCommandTest : TestCommandBase
     public async Task UpdateShopCommand_SuccessOnRoleModerator()
     {
         // Arrange
-        var userService = UserInfoServiceMock.GetModeratorMock();
-        var handler = new UpdateShopCommandHandler(Context, userService);
-        var validator = new UpdateShopCommandValidator();
-
         var name = "new name";
 
         var command = new UpdateShopCommand()
         {
-            Id = ProductListContextFactory.ShopToUpdateId,
+            Id = ShopDb.ShopToUpdateId,
             Name = name
         };
 
+        var userInfoService = UserInfoServiceMock.GetModeratorMock().Object;
+        var handler = new UpdateShopCommandHandler(_context, userInfoService);
+        var validator = new UpdateShopCommandValidator();
+        
         // Act
-        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+        var validation = await validator.ValidateAsync(command, CancellationToken.None);
         await handler.Handle(command, CancellationToken.None);
-        var result = await Context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id && x.Name == name && x.Address == null);
+        var result = 
+            await _context.Shops.SingleOrDefaultAsync(x => x.Id == command.Id && x.Name == name && x.Address == null);
 
         // Assert
-        validationResult.IsValid.ShouldBeTrue();
+        validation.IsValid.ShouldBeTrue();
         result.ShouldNotBeNull();
     }
 
@@ -64,40 +72,45 @@ public class UpdateShopCommandTest : TestCommandBase
     public async Task UpdateShopCommand_FailOnWrongId()
     {
         // Arrange
-        var userService = UserInfoServiceMock.GetAdminMock();
-        var handler = new UpdateShopCommandHandler(Context, userService);
-        var validator = new UpdateShopCommandValidator();
-
         var command = new UpdateShopCommand()
         {
             Id = Guid.NewGuid()
         };
 
+        var userInfoService = UserInfoServiceMock.GetAdminMock().Object;
+        var handler = new UpdateShopCommandHandler(_context, userInfoService);
+        var validator = new UpdateShopCommandValidator();
+        
         // Act
         var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+        
         // Assert
         validationResult.IsValid.ShouldBeTrue();
-        await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
+        Should.Throw<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
     }
 
     [Fact]
     public async Task UpdateShopCommand_FailOnUserRole()
     {
         // Arrange
-        var userService = UserInfoServiceMock.GetUserMock();
-        var handler = new UpdateShopCommandHandler(Context, userService);
-        var validator = new UpdateShopCommandValidator();
+        var name = "new name";
 
         var command = new UpdateShopCommand()
         {
-            Id = Guid.NewGuid()
+            Id = ShopDb.ShopToUpdateId,
+            Name = name
         };
+        
+        var userInfoService = UserInfoServiceMock.GetUserMock().Object;
+        var handler = new UpdateShopCommandHandler(_context, userInfoService);
+        var validator = new UpdateShopCommandValidator();
 
         // Act
-        var validationResult = await validator.ValidateAsync(command, CancellationToken.None);
+        var validation = await validator.ValidateAsync(command, CancellationToken.None);
+        
         // Assert
-        validationResult.IsValid.ShouldBeTrue();
-        await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
+        validation.IsValid.ShouldBeTrue();
+        Should.Throw<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
     }
 
     [Fact]
@@ -118,11 +131,11 @@ public class UpdateShopCommandTest : TestCommandBase
         };
 
         // Act
-        var validationResult1 = await validator.ValidateAsync(command1, CancellationToken.None);
-        var validationResult2 = await validator.ValidateAsync(command2, CancellationToken.None);
+        var validation1 = await validator.ValidateAsync(command1, CancellationToken.None);
+        var validation2 = await validator.ValidateAsync(command2, CancellationToken.None);
 
         // Assert
-        validationResult1.IsValid.ShouldBeFalse();
-        validationResult2.IsValid.ShouldBeFalse();
+        validation1.IsValid.ShouldBeFalse();
+        validation2.IsValid.ShouldBeFalse();
     }
 }
