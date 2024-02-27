@@ -11,7 +11,7 @@ public class SearchShopHandler(IProductListDbContext context) : IRequestHandler<
     public async Task<DataList<Domain.Shop>> Handle(SearchShopQuery request, CancellationToken cancellationToken)
     {
         var query = context.Shops.AsQueryable();
-        
+
         if (!string.IsNullOrEmpty(request.Search) || !string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(x =>
                 EF.Functions.Like(x.Name, request.Search) ||
@@ -24,7 +24,7 @@ public class SearchShopHandler(IProductListDbContext context) : IRequestHandler<
         if (request.Take.HasValue)
             query = query.Take(request.Take.Value);
 
-        var list = await query.ToListAsync(cancellationToken);
+        var list = await query.OrderByDescending(x => x.CreateAt).ToListAsync(cancellationToken);
 
         return new DataList<Domain.Shop>() { TotalCount = totalCount, Records = list };
     }
