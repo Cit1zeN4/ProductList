@@ -4,13 +4,8 @@ namespace ProductList.Test.Common;
 
 public class InitDbFixture : IDisposable
 {
-    public ProductListDbContext Context { get; private set; }
-    
-    public InitDbFixture()
-    {
-        Context = TestDbContextFactory.Create();
-    }
-    
+    public ProductListDbContext Context { get; private set; } = TestDbContextFactory.Create();
+
     public void Dispose()
     {
         Context.Dispose();
