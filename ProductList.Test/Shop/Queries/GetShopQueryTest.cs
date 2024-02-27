@@ -17,7 +17,7 @@ public class GetShopQueryTest(InitDbFixture fixture)
         // Arrange
         var query = new GetShopQuery
         {
-            Id = ShopDb.ShopToGetId
+            Id = ShopDb.ShopToGetId1
         };
 
         var validator = new GetShopQueryValidator();
@@ -30,7 +30,7 @@ public class GetShopQueryTest(InitDbFixture fixture)
         // Assert
         validation.IsValid.ShouldBeTrue();
         result.ShouldNotBeNull();
-        result.Id.ShouldBe(ShopDb.ShopToGetId);
+        result.Id.ShouldBe(ShopDb.ShopToGetId1);
     }
 
     [Fact]
