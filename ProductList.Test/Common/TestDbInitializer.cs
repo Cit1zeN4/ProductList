@@ -29,14 +29,16 @@ public static class TestDbInitializer
                 new Domain.Shop()
                 {
                     Id = ShopToGetId1,
-                    Name = "Unique shop",
-                    Address = "Night City 52/1"
+                    Name = "Unique value",
+                    Address = "Night City 52/1",
+                    CreateAt = DateTimeOffset.UtcNow.AddMinutes(-10)
                 },
                 new Domain.Shop()
                 {
                     Id = ShopToGetId2,
-                    Name = "Shop",
-                    Address = "Night City 52/2"
+                    Name = "Value",
+                    Address = "Night City 52/2",
+                    CreateAt = DateTimeOffset.UtcNow
                 }
             );
         }
