@@ -8,6 +8,6 @@ public class SearchShopQueryValidator : AbstractValidator<SearchShopQuery>
     {
         RuleFor(x => x.Search).MaximumLength(512);
         RuleFor(x => x.Skip).GreaterThanOrEqualTo(0);
-        RuleFor(x => x.Take).GreaterThanOrEqualTo(1);
+        RuleFor(x => x.Take).GreaterThanOrEqualTo(1).LessThanOrEqualTo(50);
     }
 }

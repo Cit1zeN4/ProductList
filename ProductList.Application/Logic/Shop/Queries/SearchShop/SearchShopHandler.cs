@@ -14,17 +14,19 @@ public class SearchShopHandler(IProductListDbContext context) : IRequestHandler<
 
         if (!string.IsNullOrEmpty(request.Search) || !string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(x =>
-                EF.Functions.Like(x.Name, request.Search) ||
-                EF.Functions.Like(x.Address, request.Search));
+                EF.Functions.Like(x.Name, $"%{request.Search}%") ||
+                EF.Functions.Like(x.Address, $"%{request.Search}%"));
 
         var totalCount = await query.CountAsync(cancellationToken);
+
+        query = query.OrderByDescending(x => x.CreateAt);
 
         if (request.Skip.HasValue)
             query = query.Skip(request.Skip.Value);
         if (request.Take.HasValue)
             query = query.Take(request.Take.Value);
 
-        var list = await query.OrderByDescending(x => x.CreateAt).ToListAsync(cancellationToken);
+        var list = await query.ToListAsync(cancellationToken);
 
         return new DataList<Domain.Shop>() { TotalCount = totalCount, Records = list };
     }
