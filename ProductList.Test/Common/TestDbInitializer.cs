@@ -8,7 +8,8 @@ public static class TestDbInitializer
     {
         public static Guid ShopToDeleteId = Guid.NewGuid();
         public static Guid ShopToUpdateId = Guid.NewGuid();
-        public static Guid ShopToGetId = Guid.NewGuid();
+        public static Guid ShopToGetId1 = Guid.NewGuid();
+        public static Guid ShopToGetId2 = Guid.NewGuid();
     
         public static void InitShop(IProductListDbContext context)
         {
@@ -27,13 +28,13 @@ public static class TestDbInitializer
                 },
                 new Domain.Shop()
                 {
-                    Id = ShopToGetId,
+                    Id = ShopToGetId1,
                     Name = "Unique shop",
                     Address = "Night City 52/1"
                 },
                 new Domain.Shop()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = ShopToGetId2,
                     Name = "Shop",
                     Address = "Night City 52/2"
                 }
