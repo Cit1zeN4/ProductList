@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ShopDb = ProductList.Test.Common.ShopInitializer;
+
+using Microsoft.EntityFrameworkCore;
 using ProductList.Application.Common.Exceptions;
 using ProductList.Application.Interfaces;
-using ShopDb = ProductList.Test.Common.TestDbInitializer.ShopInitializer;
 
 using ProductList.Application.Logic.Shop.Commands.UpdateShop;
 using ProductList.Test.Common;

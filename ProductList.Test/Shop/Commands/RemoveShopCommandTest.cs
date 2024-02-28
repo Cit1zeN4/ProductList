@@ -1,4 +1,4 @@
-﻿using ShopDb = ProductList.Test.Common.TestDbInitializer.ShopInitializer;
+﻿using ShopDb = ProductList.Test.Common.ShopInitializer;
 
 using Microsoft.EntityFrameworkCore;
 using ProductList.Application.Common.Exceptions;

@@ -1,4 +1,4 @@
-﻿using ShopDb = ProductList.Test.Common.TestDbInitializer.ShopInitializer;
+﻿using ShopDb = ProductList.Test.Common.ShopInitializer;
 
 using ProductList.Application.Interfaces;
 using ProductList.Application.Logic.Shop.Queries.SearchShop;
