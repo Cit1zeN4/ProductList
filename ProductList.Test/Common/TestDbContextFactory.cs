@@ -15,6 +15,7 @@ public static class TestDbContextFactory
         context.Database.EnsureCreated();
         
         ShopInitializer.InitShop(context);
+        ProductInitializer.InitProduct(context);
 
         context.SaveChanges();
         return context;

@@ -41,3 +41,21 @@ public static class ShopInitializer
         );
     }
 }
+
+public static class ProductInitializer
+{
+    public static Guid GetProductId = Guid.NewGuid();
+    public static readonly string GetProductBarcode = "90123456789";
+
+    public static void InitProduct(IProductListDbContext context)
+    {
+        context.Products.AddRange(
+            new Domain.Product
+            {
+                Id = GetProductId,
+                Barcode = GetProductBarcode,
+                Name = "TestProduct1"
+            }
+        );
+    }
+}
