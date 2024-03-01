@@ -3,13 +3,14 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProductList.Application.Common.Exceptions;
 using ProductList.Application.Interfaces;
+using ProductList.Application.Logic.Product.Response;
 
 namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
 public class GetProductQueryHandler
-    (IProductListDbContext context, IMapper mapper) : IRequestHandler<GetProductQuery, GetProductResponse>
+    (IProductListDbContext context, IMapper mapper) : IRequestHandler<GetProductQuery, BaseProductResponse>
 {
-    public async Task<GetProductResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)
+    public async Task<BaseProductResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
         Domain.Product? product = null;
         object key;
@@ -32,6 +33,6 @@ public class GetProductQueryHandler
         if (product == null)
             throw new NotFoundException(nameof(Domain.Product), key);
 
-        return mapper.Map<GetProductResponse>(product);
+        return mapper.Map<BaseProductResponse>(product);
     }
 }

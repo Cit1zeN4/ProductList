@@ -2,19 +2,19 @@
 using ProductList.Application.Common.Mappings;
 using ProductList.Domain;
 
-namespace ProductList.Application.Logic.Product.Query.GetProduct;
+namespace ProductList.Application.Logic.Product.Response;
 
-public class GetProductResponse : IMapWith<Domain.Product>
+public sealed class BaseProductResponse : IMapWith<Domain.Product>
 {
     public Guid Id { get; set; }
     public string Barcode { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public virtual List<Image> Images { get; set; }
+    public List<Image> Images { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Domain.Product, GetProductResponse>()
+        profile.CreateMap<Domain.Product, BaseProductResponse>()
             .ForMember(dto => dto.Id,
                 opt => opt.MapFrom(x => x.Id))
             .ForMember(dto => dto.Barcode,
