@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
-public class GetProductQueryValidator : AbstractValidator<GetProductQuery>
+public sealed class GetProductQueryValidator : AbstractValidator<GetProductQuery>
 {
     public GetProductQueryValidator()
     {
@@ -17,7 +17,6 @@ public class GetProductQueryValidator : AbstractValidator<GetProductQuery>
                 RuleFor(y => y.Barcode).NotNull().NotEmpty().MinimumLength(1).MaximumLength(50);
             });
 
-        RuleFor(y => y.Id).NotNull().NotEqual(Guid.Empty);
-        RuleFor(y => y.Barcode).NotNull().NotEmpty().MinimumLength(1).MaximumLength(50);
+        RuleFor(x => new { x.Id, x.Barcode }).Must(x => x.Id.HasValue || !string.IsNullOrEmpty(x.Barcode));
     }
 }
