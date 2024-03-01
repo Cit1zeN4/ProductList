@@ -44,7 +44,7 @@ public class SearchShopQueryTest(InitDbFixture fixture)
         };
 
         var validator = new SearchShopQueryValidator();
-        var handler = new SearchShopHandler(_context);
+        var handler = new SearchShopQueryHandler(_context);
 
         // Act
         var validation1 = await validator.ValidateAsync(query1);

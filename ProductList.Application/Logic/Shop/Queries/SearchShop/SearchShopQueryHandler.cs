@@ -6,7 +6,7 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Queries.SearchShop;
 
-public sealed class SearchShopHandler(IProductListDbContext context) : IRequestHandler<SearchShopQuery, DataList<Domain.Shop>>
+public sealed class SearchShopQueryHandler(IProductListDbContext context) : IRequestHandler<SearchShopQuery, DataList<Domain.Shop>>
 {
     public async Task<DataList<Domain.Shop>> Handle(SearchShopQuery request, CancellationToken cancellationToken)
     {
