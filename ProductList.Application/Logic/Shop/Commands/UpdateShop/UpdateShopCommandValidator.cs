@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Shop.Commands.UpdateShop;
 
-public class UpdateShopCommandValidator : AbstractValidator<UpdateShopCommand>
+public sealed class UpdateShopCommandValidator : AbstractValidator<UpdateShopCommand>
 {
     public UpdateShopCommandValidator()
     {

@@ -6,7 +6,7 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Commands.UpdateShop;
 
-public class UpdateShopCommandHandler(IProductListDbContext context, IUserInfoService user) : IRequestHandler<UpdateShopCommand, Unit>
+public sealed class UpdateShopCommandHandler(IProductListDbContext context, IUserInfoService user) : IRequestHandler<UpdateShopCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateShopCommand request, CancellationToken cancellationToken)
     {

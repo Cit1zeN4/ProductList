@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace ProductList.Application.Logic.Shop.Commands.CreateShop;
 
-public class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
+public sealed class CreateShopCommandValidator : AbstractValidator<CreateShopCommand>
 {
     public CreateShopCommandValidator()
     {

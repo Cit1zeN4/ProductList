@@ -7,7 +7,7 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Commands.RemoveShop;
 
-public class RemoveShopCommandHandler(IProductListDbContext context, IUserInfoService user) : IRequestHandler<RemoveShopCommand, Unit>
+public sealed class RemoveShopCommandHandler(IProductListDbContext context, IUserInfoService user) : IRequestHandler<RemoveShopCommand, Unit>
 {
     public async Task<Unit> Handle(RemoveShopCommand request, CancellationToken cancellationToken)
     {

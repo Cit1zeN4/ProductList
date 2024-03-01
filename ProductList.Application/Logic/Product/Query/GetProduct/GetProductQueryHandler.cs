@@ -7,7 +7,7 @@ using ProductList.Application.Logic.Product.Response;
 
 namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
-public class GetProductQueryHandler
+public sealed class GetProductQueryHandler
     (IProductListDbContext context, IMapper mapper) : IRequestHandler<GetProductQuery, BaseProductResponse>
 {
     public async Task<BaseProductResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)

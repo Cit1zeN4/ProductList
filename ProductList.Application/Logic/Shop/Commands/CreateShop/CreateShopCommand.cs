@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Shop.Commands.CreateShop;
 
-public class CreateShopCommand : IRequest<Guid>
+public sealed class CreateShopCommand : IRequest<Guid>
 {
     public string Name { get; set; }
     public string Address { get; set; }

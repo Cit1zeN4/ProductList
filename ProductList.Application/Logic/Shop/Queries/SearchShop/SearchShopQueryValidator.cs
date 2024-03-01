@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Shop.Queries.SearchShop;
 
-public class SearchShopQueryValidator : AbstractValidator<SearchShopQuery>
+public sealed class SearchShopQueryValidator : AbstractValidator<SearchShopQuery>
 {
     public SearchShopQueryValidator()
     {

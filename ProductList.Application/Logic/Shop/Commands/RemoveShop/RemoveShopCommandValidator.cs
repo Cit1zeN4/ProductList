@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Shop.Commands.RemoveShop;
 
-public class RemoveShopCommandValidator : AbstractValidator<RemoveShopCommand>
+public sealed class RemoveShopCommandValidator : AbstractValidator<RemoveShopCommand>
 {
     public RemoveShopCommandValidator()
     {

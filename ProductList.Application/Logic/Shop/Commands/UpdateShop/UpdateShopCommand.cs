@@ -2,7 +2,7 @@
 
 namespace ProductList.Application.Logic.Shop.Commands.UpdateShop;
 
-public class UpdateShopCommand : IRequest<Unit>
+public sealed class UpdateShopCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

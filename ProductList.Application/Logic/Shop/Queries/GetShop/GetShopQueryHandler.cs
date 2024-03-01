@@ -5,7 +5,7 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Queries.GetShop;
 
-public class GetShopQueryHandler(IProductListDbContext context) : IRequestHandler<GetShopQuery, Domain.Shop>
+public sealed class GetShopQueryHandler(IProductListDbContext context) : IRequestHandler<GetShopQuery, Domain.Shop>
 {
     public async Task<Domain.Shop> Handle(GetShopQuery request, CancellationToken cancellationToken)
     {

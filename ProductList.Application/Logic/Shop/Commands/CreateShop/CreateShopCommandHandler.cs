@@ -3,7 +3,7 @@ using ProductList.Application.Interfaces;
 
 namespace ProductList.Application.Logic.Shop.Commands.CreateShop;
 
-public class CreateShopCommandHandler(IProductListDbContext context) : IRequestHandler<CreateShopCommand, Guid>
+public sealed class CreateShopCommandHandler(IProductListDbContext context) : IRequestHandler<CreateShopCommand, Guid>
 {
     public async Task<Guid> Handle(CreateShopCommand request, CancellationToken cancellationToken)
     {

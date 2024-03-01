@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace ProductList.Application.Common.Mappings;
 
-public class AssemblyMappingProfile : Profile
+public sealed class AssemblyMappingProfile : Profile
 {
     public AssemblyMappingProfile(Assembly assembly) =>
         ApplyMappingsFromAssembly(assembly);
