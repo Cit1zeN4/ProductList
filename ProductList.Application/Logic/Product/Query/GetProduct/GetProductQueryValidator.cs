@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace ProductList.Application.Logic.Product.Query;
+namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
 public class GetProductQueryValidator : AbstractValidator<GetProductQuery>
 {

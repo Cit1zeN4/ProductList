@@ -2,7 +2,7 @@
 using ProductList.Application.Common.Mappings;
 using ProductList.Domain;
 
-namespace ProductList.Application.Logic.Product.Query;
+namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
 public class GetProductResponse : IMapWith<Domain.Product>
 {

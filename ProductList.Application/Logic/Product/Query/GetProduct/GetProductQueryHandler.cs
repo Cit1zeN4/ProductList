@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductList.Application.Common.Exceptions;
 using ProductList.Application.Interfaces;
 
-namespace ProductList.Application.Logic.Product.Query;
+namespace ProductList.Application.Logic.Product.Query.GetProduct;
 
 public class GetProductQueryHandler
     (IProductListDbContext context, IMapper mapper) : IRequestHandler<GetProductQuery, GetProductResponse>

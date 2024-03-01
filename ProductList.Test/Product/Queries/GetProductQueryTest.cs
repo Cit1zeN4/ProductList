@@ -2,7 +2,7 @@
 
 using AutoMapper;
 using ProductList.Application.Interfaces;
-using ProductList.Application.Logic.Product.Query;
+using ProductList.Application.Logic.Product.Query.GetProduct;
 using ProductList.Test.Common;
 
 namespace ProductList.Test.Product.Queries;
